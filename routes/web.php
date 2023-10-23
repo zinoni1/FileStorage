@@ -23,5 +23,5 @@ Route::get('/errors', function() {
     return view('errors');
 });
 
-Route::get('/mostrardades', [controladorFile::class, 'mostrarJson']);
+Route::get('/mostrardades', [controladorFile::class, 'mostrarDades']);
 

@@ -56,14 +56,24 @@ class controladorFile extends Controller
         $dadesExistents[] = $dades;
         //s'afageixen les dades a i es mantenen les dades que ja hi eren
         Storage::disk('local')->put($arxiuJson, json_encode($dadesExistents));
-    
-        //crear XML i asignarli el nom dades.xml
+        
         $arxiuXml = 'dades.xml';
-        $xml = new \SimpleXMLElement('<dades/>');
-        //paso les dades a un bon format xml i despres es guarda a dades.xml dins de public
-        $this->arrayDeXml($dades, $xml);  
-        Storage::disk('public')->put($arxiuXml, $xml->asXML());
+
+        if (Storage::disk('public')->exists($arxiuXml)) {
+            // Si el archivo existe, carga el contenido
+            $xmlString = Storage::disk('public')->get($arxiuXml);
+            $xml = new \SimpleXMLElement($xmlString);
+        } else {
+            // Si no existe, crea un nuevo archivo XML con una etiqueta raíz
+            $xml = new \SimpleXMLElement('<dades/>');
+        }
     
+        // Añade las nuevas dades al XML existente
+        $this->arrayDeXml($dades, $xml);
+    
+        // Guarda el archivo XML actualizado
+        Storage::disk('public')->put($arxiuXml, $xml->asXML());
+        
         return redirect('/mostrardades');
     }
     
@@ -103,18 +113,23 @@ class controladorFile extends Controller
             }
         }
 
-        public function mostrarJson()
-        {   //poso el nom de l'arxiu json
+        public function mostrarDades() {
+            //Dades del JSON
             $arxiuJson = 'dades.json';
-            //creo un array buit
-            $dades = [];
-            //si existeix l'arxiu json, es guarda tota la informació a dades i si no es queda buit
+            $dadesJson = [];
             if (Storage::disk('local')->exists($arxiuJson)) {
-                $dades = json_decode(Storage::disk('local')->get($arxiuJson), true);
+                $dadesJson = json_decode(Storage::disk('local')->get($arxiuJson), true);
             }
-            //retorna les dades
-            return view('mostrarDades', ['dades' => $dades]);
+        
+            //Dades del XML
+            $arxiuXml = 'dades.xml';
+            $dadesXml = [];
+            if (Storage::disk('public')->exists($arxiuXml)) {
+            $dadesXml = simplexml_load_string(Storage::disk('public')->get($arxiuXml));
+            }
+            //Retorna les dades
+            return view('mostrarDades', ['dadesJson' => $dadesJson, 'dadesXml' => $dadesXml]);
         }
-
+        
     };
     

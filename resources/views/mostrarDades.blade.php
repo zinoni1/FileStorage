@@ -2,12 +2,10 @@
 <html lang="en">
 
 <head>
-  <title>Dades de l'XML</title>
-  <!-- Required meta tags -->
+  <title>Dades</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS v5.2.1 -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
 
@@ -15,26 +13,20 @@
 
 <body>
   <header>
-    <!-- place navbar here -->
   </header>
   <main>
-  <!--poner los datos del json-->
-  <div class="container">
-    <h1>Dades de l'XML</h1>
+  <div>
+    <h1>Dades del JSON</h1>
     <table class="table">
-      <thead>
         <tr>
-          <th scope="col">Nom</th>
-          <th scope="col">Cognom</th>
-          <th scope="col">NIF</th>
-          <th scope="col">Sexe</th>
-          <th scope="col">Estat Civil</th>
+          <th>Nom</th>
+          <th>Cognom</th>
+          <th>NIF</th>
+          <th>Sexe</th>
+          <th>Estat Civil</th>
         </tr>
-      </thead>
-      <tbody>
-
       <!--faig un bucle de cada "formulari" i poso les dades-->
-        @foreach ($dades as $dada)
+        @foreach ($dadesJson as $dada)
         <tr>
           <td>{{$dada['inputName']}}</td>
           <td>{{$dada['inputCognom']}}</td>
@@ -43,14 +35,30 @@
           <td>{{$dada['inputES']}}</td>
         </tr>
         @endforeach
-      </tbody>
     </table>
+    <h1>Dades del XML</h1>
+<table class="table">
+    <tr>
+        <th>Nom</th>
+        <th>Cognom</th>
+        <th>NIF</th>
+        <th>Sexe</th>
+        <th>Estat Civil</th>
+    </tr>
+    @for ($i = 0; $i < count($dadesXml->inputName); $i++)
+        <tr>
+            <td>{{ $dadesXml->inputName[$i] }}</td>
+            <td>{{ $dadesXml->inputCognom[$i] }}</td>
+            <td>{{ $dadesXml->inputNif[$i] }}</td>
+            <td>{{ $dadesXml->inputSexe[$i] }}</td>
+            <td>{{ $dadesXml->inputES[$i] }}</td>
+        </tr>
+    @endfor
+</table>
 
   </main>
   <footer>
-    <!-- place footer here -->
   </footer>
-  <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
   </script>
