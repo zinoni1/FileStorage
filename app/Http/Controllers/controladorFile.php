@@ -19,7 +19,7 @@ class controladorFile extends Controller
             'inputSexe' => 'required',
             'inputES' => 'required',
         ]);
-        //si algo del formulari esta buit i no esta "requiered" a l'html surt l'error de que no pot estar un input buit
+        //si algo del formulari esta buit i no esta "requiered" surt l'error de que no pot estar un input buit
         if ($validator->fails()) {
             return redirect('/errors')
                 ->withErrors($validator)
